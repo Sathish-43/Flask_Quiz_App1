@@ -1,0 +1,10 @@
+.inp{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid rgb(4, 184, 4);
+}
+.container{
+    border: 4mm ridge rgba(211, 220, 50, .6);
+    
+}

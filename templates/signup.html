@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+</head>
+<body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-link a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <div class="container">
+    <h1>Signup</h1>
+    <form action="{{ url_for('register') }}" method="post">
+        <label for="username">Username: <span style="color:red;font-size:15px;"> * </span> </label><br><br>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="email">Email:<span style="color:red;font-size:15px;"> * </span> </label><br><br>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="mobile">Mobile: <span style="color:red;font-size:15px;"> * </span></label><br><br>
+        <input type="text" id="mobile" name="mobile" required><br><br>
+        
+        <label for="college">College (Optional):</label><br><br>
+        <input type="text" id="college" name="college"><br><br>
+        
+        <label for="password">Password: <span style="color:red; font-size:15px;"> * </span></label><br><br>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <input type="submit" value="Signup">
+    </form>
+    <div class="login-link">
+        <p>Already have an account? <a href="{{ url_for('home') }}">Login</a>.</p>
+    </div>
+    
+</div>
+</body>
+</html>

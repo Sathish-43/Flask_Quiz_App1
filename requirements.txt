@@ -1,0 +1,4 @@
+Flask-MySQLdb
+Flask
+Werkzeug
+gunicorn

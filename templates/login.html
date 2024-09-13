@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 450px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid rgb(4, 174, 4);
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .signup-link a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        .show-password {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+    </style>
+    
+    <div class="container">
+        <h1>Login</h1>
+        <form action="{{ url_for('login') }}" method="post">
+            <label for="username" style="font-size:20px;">Username or Email:</label><br>
+            <input type="text" id="username" name="username" required><br><br>
+            
+            <label for="password" style="font-size:20px;">Password:</label><br>
+            <input type="password" id="password" name="password" required><br><br>
+            
+            <!-- Show password checkbox -->
+            <input type="checkbox" id="showPassword" class="show-password" onclick="togglePassword()"> Show Password<br><br>
+
+            <input type="submit" value="Login">
+        </form>
+        <div class="signup-link">
+            <p>Don't have an account? <a href="{{ url_for('signup') }}">Signup</a>.</p>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle password visibility
+        function togglePassword() {
+            var passwordInput = document.getElementById("password");
+            var checkbox = document.getElementById("showPassword");
+
+            if (checkbox.checked) {
+                passwordInput.type = "text";  // Show the password
+            } else {
+                passwordInput.type = "password";  // Hide the password
+            }
+        }
+    </script>
+</body>
+</html>

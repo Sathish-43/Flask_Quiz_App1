@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        .question {
+            display: none;
+            margin-bottom: 20px;
+        }
+        .question.active {
+            display: block;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        h1{
+            text-align:center;
+        }
+        .container{
+            border: 12px solid rgb(56, 56, 239);
+            padding: 25px;
+            font-size: 2rem;
+            box-shadow: rgba(240, 46, 170, 0.4) 5px 5px, rgba(240, 46, 170, 0.3) 10px 10px, rgba(240, 46, 170, 0.2) 15px 15px, rgba(240, 46, 170, 0.1) 20px 20px, rgba(240, 46, 170, 0.05) 25px 25px;
+            border-radius: 10px;
+            background-color: #fff;
+            margin-bottom: 20px;
+            width:40%;
+            margin:0 auto;
+        }
+        .next-btn {
+            padding: 10px 20px;
+            width: 100%;
+            background-color: rgb(56, 56, 239);
+            color: white;
+            font-size: 1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s, color 0.3s, border 0.3s;
+        }
+        .next-btn:disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
+        .next-btn:hover:not(:disabled) {
+            background-color: white;
+            color: rgb(56, 56, 239);
+            border: 2px solid rgb(56, 56, 239);
+        }
+        .icon {
+            margin-left: 10px;
+        }
+        .btn1 {
+            padding: 15px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border-radius: 7px;
+            border: 3px solid blue;
+            font-size: 1.3rem;
+            background-color: white;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .btn1:hover {
+            background-color: blue;
+            color: white;
+            border: 3px solid white;
+        }
+        .btn1 input[type="radio"] {
+            margin-right: 10px;
+            height: 20px; 
+            width: 20px;
+            accent-color: blue;
+        }
+        #timer {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* Timer Bar */
+        #timer-bar {
+            width: 100%;
+            height: 20px;
+            background-color: lightgray;
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        #timer-progress {
+            height: 100%;
+            background-color: rgb(56, 56, 239);
+            width: 100%;
+            transition: width 1s linear;
+        }
+    </style>
+    
+</head>
+<body>
+    <h1>Welcome to Technical Quiz</h1>
+    <div class="container">
+    <form action="{{ url_for('submit_quiz') }}" method="post">
+        <!-- Timer and Timer Bar -->
+        <div id="timer">Time left: 45s</div>
+        <div id="timer-bar">
+            <div id="timer-progress"></div>
+        </div>
+
+        <!-- Question 1 -->
+        <div id="question1" class="question">
+            <h3>1. What is the capital of France?</h3>
+           <button class="btn1"> <input type="radio" name="q1" value="Paris" onclick="enableNextButton(1)"> Paris </button><br>
+           <button class="btn1"> <input type="radio" name="q1" value="London" onclick="enableNextButton(1)"> London</button><br>
+            <button class="btn1"> <input type="radio" name="q1" value="Berlin" onclick="enableNextButton(1)"> Berlin</button><br>
+            <button class="btn1"> <input type="radio" name="q1" value="Madrid" onclick="enableNextButton(1)"> Madrid</button><br>
+            <button type="button" id="nextButton1" disabled onclick="showNextQuestion(1)" class="next-btn">Next <i class="fa-solid fa-arrow-right icon"></i></button>
+        </div>
+
+        <!-- Question 2 -->
+        <div id="question2" class="question">
+            <h3>2. What is 2 + 2?</h3>
+            <button class="btn1"> <input type="radio" name="q2" value="3" onclick="enableNextButton(2)"> 3</button><br>
+            <button class="btn1"> <input type="radio" name="q2" value="4" onclick="enableNextButton(2)"> 4</button><br>
+            <button class="btn1"><input type="radio" name="q2" value="5" onclick="enableNextButton(2)"> 5</button><br>
+            <button class="btn1"><input type="radio" name="q2" value="6" onclick="enableNextButton(2)"> 6</button><br>
+            <button type="button" id="nextButton2" disabled onclick="showNextQuestion(2)" class="next-btn">Next <i class="fa-solid fa-arrow-right icon"></i></button>
+        </div>
+
+        <!-- Question 3 -->
+        <div id="question3" class="question">
+            <h3>3. Who wrote 'Hamlet'?</h3>
+            <button class="btn1"><input type="radio" name="q3" value="Charles Dickens" onclick="enableNextButton(3)"> Charles Dickens</button><br>
+            <button class="btn1"><input type="radio" name="q3" value="J.K. Rowling" onclick="enableNextButton(3)"> J.K. Rowling</button><br>
+            <button class="btn1"><input type="radio" name="q3" value="William Shakespeare" onclick="enableNextButton(3)"> William Shakespeare</button><br>
+            <button class="btn1"><input type="radio" name="q3" value="George Orwell" onclick="enableNextButton(3)"> George Orwell</button><br>
+            <button type="button" id="nextButton3" disabled onclick="showNextQuestion(3)" class="next-btn">Next <i class="fa-solid fa-arrow-right icon"></i></button>
+        </div>
+
+        <!-- Question 4 -->
+        <div id="question4" class="question">
+            <h3>4. Which planet is known as the Red Planet?</h3>
+            <button class="btn1"><input type="radio" name="q4" value="Venus" onclick="enableNextButton(4)"> Venus</button><br>
+            <button class="btn1"><input type="radio" name="q4" value="Earth" onclick="enableNextButton(4)"> Earth</button><br>
+            <button class="btn1"><input type="radio" name="q4" value="Jupiter" onclick="enableNextButton(4)"> Jupiter</button><br>                
+            <button class="btn1"><input type="radio" name="q4" value="Mars" onclick="enableNextButton(4)"> Mars</button><br>
+            <button type="button" id="nextButton4" disabled onclick="showNextQuestion(4)" class="next-btn">Next <i class="fa-solid fa-arrow-right icon"></i></button>
+        </div>
+
+        <!-- Question 5 -->
+        <div id="question5" class="question">
+            <h3>5. What is the boiling point of water?</h3>
+            <button class="btn1"> <input type="radio" name="q5" value="50°C" onclick="enableNextButton(5)"> 50°C</button><br>
+            <button class="btn1"> <input type="radio" name="q5" value="100°C" onclick="enableNextButton(5)"> 100°C</button><br>
+            <button class="btn1"><input type="radio" name="q5" value="150°C" onclick="enableNextButton(5)"> 150°C</button><br>
+            <button class="btn1"><input type="radio" name="q5" value="200°C" onclick="enableNextButton(5)"> 200°C</button><br>
+            <button type="submit" id="submitQuiz"  class="next-btn">Submit Quiz</button>
+        </div>
+    </form>
+    </div>
+
+    <script>
+    let currentQuestion = 1;
+    let timer;
+    let timeLeft = 45;
+    let blinkInterval;
+
+    document.addEventListener("DOMContentLoaded", function() {
+        showQuestion(currentQuestion);
+        startTimer();
+    });
+
+    function showQuestion(questionNumber) {
+        document.getElementById("question" + questionNumber).classList.add("active");
+    }
+
+    function enableNextButton(questionNumber) {
+        document.getElementById("nextButton" + questionNumber).disabled = false;
+    }
+
+    function showNextQuestion(questionNumber) {
+        document.getElementById("question" + questionNumber).classList.remove("active");
+        if (questionNumber < 5) {
+            currentQuestion++;
+            document.getElementById("question" + (questionNumber + 1)).classList.add("active");
+            resetTimer();
+        } else {
+            document.getElementById("submitQuiz").disabled = false;
+            clearInterval(timer);
+        }
+    }
+
+    function startTimer() {
+        timeLeft = 45;
+        updateTimerBar();
+        timer = setInterval(function() {
+            timeLeft--;
+            document.getElementById("timer").innerText = "Time left: " + timeLeft + "s";
+            updateTimerBar();
+
+            // Start blinking the timer when time left is less than or equal to 15 seconds
+            if (timeLeft <= 15) {
+                startBlinking();
+            } else {
+                stopBlinking();
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                stopBlinking(); // Stop blinking when the timer reaches 0
+                if (currentQuestion < 5) {
+                    showNextQuestion(currentQuestion);
+                }
+            }
+        }, 1000);
+    }
+
+    function resetTimer() {
+        clearInterval(timer);
+        timeLeft = 45;
+        document.getElementById("timer").innerText = "Time left: " + timeLeft + "s";
+        updateTimerBar();
+        stopBlinking(); // Reset blinking when moving to the next question
+        startTimer();
+    }
+
+    // Update the visual progress bar and change color if time is below 20 seconds
+    function updateTimerBar() {
+        let percentage = (timeLeft / 45) * 100;
+        document.getElementById("timer-progress").style.width = percentage + "%";
+
+        // Change the color of the progress bar to red if time is below 20 seconds
+        if (timeLeft <= 20) {
+            document.getElementById("timer-progress").style.backgroundColor = "red";
+        } else {
+            document.getElementById("timer-progress").style.backgroundColor = "rgb(56, 56, 239)"; // Default blue
+        }
+    }
+
+    // Function to start blinking the timer
+    function startBlinking() {
+        if (!blinkInterval) {
+            blinkInterval = setInterval(function() {
+                let timerElement = document.getElementById("timer");
+                if (timerElement.style.visibility === "hidden") {
+                    timerElement.style.visibility = "visible";
+                } else {
+                    timerElement.style.visibility = "hidden";
+                }
+            }, 500); // Blink every 500ms
+        }
+    }
+
+    // Function to stop blinking the timer
+    function stopBlinking() {
+        if (blinkInterval) {
+            clearInterval(blinkInterval);
+            blinkInterval = null;
+            document.getElementById("timer").style.visibility = "visible"; // Ensure timer is visible
+        }
+    }
+</script>
+
+</body>
+</html>
+
